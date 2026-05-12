@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Week · Schedule</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131c;
+    --surface2: #1c1c2a;
+    --surface3: #242436;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --accent: #c9a96e;
+    --accent2: #e8c98a;
+    --accent-dim: rgba(201,169,110,0.12);
+    --accent-glow: rgba(201,169,110,0.25);
+    --text: #f0ede8;
+    --text2: #9997a0;
+    --text3: #5c5a65;
+    --now: #6edfc9;
+    --now-dim: rgba(110,223,201,0.12);
+    --now-glow: rgba(110,223,201,0.3);
+    --danger: #e87070;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'DM Sans', sans-serif;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* — Noise overlay — */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* — Layout — */
+  .shell { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* — Header — */
+  header {
+    padding: 40px 0 32px;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .logo-block h1 {
+    font-family: var(--serif);
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    line-height: 1;
+  }
+  .logo-block h1 span { color: var(--accent); font-style: italic; }
+  .logo-block p { color: var(--text2); font-size: 13px; margin-top: 6px; font-weight: 300; }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  #live-clock {
+    font-size: 13px; color: var(--text2);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.3px;
+  }
+  .notif-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text2); padding: 8px 16px; border-radius: 100px;
+    cursor: pointer; font-family: var(--sans); font-size: 13px;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+  }
+  .notif-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .notif-btn.granted { color: var(--now); border-color: var(--now-dim); }
+
+  /* — Now Card — */
+  .now-card {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; gap: 32px;
+  }
+  .now-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+  }
+  .now-card::after {
+    content: '';
+    position: absolute; bottom: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: var(--now-dim);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .now-left { flex: 1; }
+  .now-label {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--now); font-weight: 500; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .now-label::before {
+    content: '';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--now);
+    box-shadow: 0 0 8px var(--now-glow);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .now-task {
+    font-family: var(--serif);
+    font-size: 42px; font-weight: 400;
+    color: var(--text);
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+  }
+  .now-task.editable { cursor: text; }
+  .now-task.editable:hover { color: var(--accent2); }
+  .now-meta {
+    margin-top: 10px; color: var(--text2); font-size: 13px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .now-meta span { display: flex; align-items: center; gap: 5px; }
+  .now-right { text-align: right; }
+  .next-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+  .next-task { font-size: 18px; color: var(--text2); font-family: var(--serif); }
+  .next-time { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+  /* — Progress bar — */
+  .progress-bar {
+    height: 3px; background: var(--surface3);
+    border-radius: 2px; margin: 20px 0 28px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--now));
+    transition: width 10s linear;
+  }
+
+  /* — Day tabs — */
+  .day-tabs {
+    display: flex; gap: 6px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .day-tabs::-webkit-scrollbar { display: none; }
+  .day-tab {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text2); padding: 9px 20px; border-radius: 100px;
+    cursor: pointer; font-family: var(--sans); font-size: 13px; font-weight: 500;
+    white-space: nowrap; transition: all 0.2s; flex-shrink: 0;
+  }
+  .day-tab:hover { border-color: var(--border2); color: var(--text); }
+  .day-tab.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent2); }
+  .day-tab.today { position: relative; }
+  .day-tab.today::after {
+    content: '';
+    position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px; border-radius: 50%; background: var(--now);
+  }
+
+  /* — Schedule Grid — */
+  .schedule-grid {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .slot {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    align-items: center;
+    gap: 0;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s;
+    position: relative;
+  }
+  .slot:hover { background: var(--surface); }
+  .slot.is-now {
+    background: var(--surface) !important;
+    box-shadow: inset 3px 0 0 var(--now);
+  }
+  .slot.is-now .slot-task { color: var(--now); }
+  .slot.is-empty { opacity: 0.35; }
+  .slot-time {
+    font-size: 11px; color: var(--text3);
+    padding: 10px 12px 10px 8px;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .slot-task {
+    font-size: 14px; color: var(--text);
+    padding: 10px 8px;
+    font-weight: 400;
+    flex: 1;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: color 0.15s;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .slot-task:hover { color: var(--accent2); }
+  .slot-task input {
+    background: var(--surface2);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    padding: 4px 10px;
+    outline: none;
+    width: 100%;
+    max-width: 280px;
+  }
+  .slot-actions {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 8px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .slot:hover .slot-actions { opacity: 1; }
+  .slot.is-now .slot-actions { opacity: 1; }
+  .bell-btn {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text3); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; transition: all 0.2s;
+  }
+  .bell-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .bell-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent2); }
+
+  /* — Section separators — */
+  .section-sep {
+    display: flex; align-items: center; gap: 12px;
+    margin: 16px 0 8px;
+    color: var(--text3); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  }
+  .section-sep::before, .section-sep::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* — Toast — */
+  .toast {
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+    background: var(--surface2); border: 1px solid var(--border2);
+    color: var(--text); padding: 12px 24px; border-radius: 100px;
+    font-size: 13px; z-index: 1000;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+    display: flex; align-items: center; gap: 8px;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; pointer-events: auto; }
+
+  /* — Scrollbar — */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 2px; }
+
+  /* — Mobile — */
+  @media (max-width: 600px) {
+    .shell { padding: 0 16px 60px; }
+    header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .now-card { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .now-task { font-size: 32px; }
+    .now-right { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header>
+    <div class="logo-block">
+      <h1>My <span>Week</span></h1>
+      <p id="header-date">Loading…</p>
+    </div>
+    <div class="header-right">
+      <div id="live-clock">--:-- --</div>
+      <button class="notif-btn" id="notif-btn" onclick="requestNotifPermission()">
+        🔔 Enable Reminders
+      </button>
+    </div>
+  </header>
+
+  <!-- Now Card -->
+  <div class="now-card">
+    <div class="now-left">
+      <div class="now-label">Happening Now</div>
+      <div class="now-task" id="now-task">Loading…</div>
+      <div class="now-meta">
+        <span id="now-time-range">—</span>
+        <span id="now-day">—</span>
+      </div>
+    </div>
+    <div class="now-right">
+      <div class="next-label">Up Next</div>
+      <div class="next-task" id="next-task">—</div>
+      <div class="next-time" id="next-time">—</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+  <!-- Day Tabs -->
+  <div class="day-tabs" id="day-tabs"></div>
+
+  <!-- Schedule -->
+  <div class="schedule-grid" id="schedule-grid"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Schedule Data ─────────────────────────────────────────────────────────────
+// Keys: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+const RAW = {
+  1: { // Monday
+    "07:30": "Wake up","08:00": "Exercise","08:30": "Personal Time","09:00": "Food",
+    "09:30": "Quality Time","10:00": "Side Hustle Digital","10:30": "Side Hustle Digital",
+    "11:00": "Move Forward","11:30": "Move Forward","12:00": "Side Hustle Digital",
+    "12:30": "Guitar","13:00": "","13:30": "","14:00": "","14:30": "","15:00": "",
+    "15:30": "","16:00": "","16:30": "Quality Time","17:00": "","17:30": "",
+    "18:00": "Move Forward","18:30": "Move Forward","19:00": "Yuvi","19:30": "",
+    "20:00": "","20:30": "","21:00": "","21:30": "","22:00": "","22:30": "",
+    "23:00": "Quality Time","23:30": "Side Hustle Digital","00:00": "Meditation"
+  },
+  2: { // Tuesday
+    "07:30": "Wake up","08:00": "Exercise","08:30": "Personal Time","09:00": "Food",
+    "09:30": "Quality Time","10:00": "Side Hustle Digital","10:30": "Side Hustle Digital",
+    "11:00": "Move Forward","11:30": "Move Forward","12:00": "Side Hustle Digital",
+    "12:30": "Guitar","13:00": "","13:30": "","14:00": "","14:30": "","15:00": "",
+    "15:30": "","16:00": "","16:30": "Quality Time","17:00": "","17:30": "",
+    "18:00": "Move Forward","18:30": "","19:00": "Yuvi","19:30": "",
+    "20:00": "","20:30": "","21:00": "","21:30": "","22:00": "","22:30": "",
+    "23:00": "Quality Time","23:30": "Side Hustle Digital","00:00": "Meditation"
+  },
+  3: { // Wednesday
+    "07:30": "Wake up","08:00": "Yuvi","08:30": "Personal Time","09:00": "Food",
+    "09:30": "Quality Time","10:00": "Side Hustle Digital","10:30": "Side Hustle Digital",
+    "11:00": "Move Forward","11:30": "Move Forward","12:00": "Side Hustle Digital",
+    "12:30": "Guitar","13:00": "","13:30": "","14:00": "","14:30": "","15:00": "",
+    "15:30": "","16:00": "","16:30": "Quality Time","17:00": "","17:30": "",
+    "18:00": "Move Forward","18:30": "","19:00": "Yuvi","19:30": "",
+    "20:00": "","20:30": "","21:00": "","21:30": "","22:00": "","22:30": "",
+    "23:00": "Quality Time","23:30": "Side Hustle Digital","00:00": "Meditation"
+  },
+  4: { // Thursday
+    "07:30": "Wake up","08:00": "Exercise","08:30": "Personal Time","09:00": "Food",
+    "09:30": "Side Hustle Digital","10:00": "Side Hustle Digital","10:30": "Quality Time",
+    "11:00": "","11:30": "","12:00": "","12:30": "","13:00": "","13:30": "",
+    "14:00": "","14:30": "","15:00": "","15:30": "","16:00": "","16:30": "",
+    "17:00": "","17:30": "","18:00": "Move Forward","18:30": "","19:00": "",
+    "19:30": "","20:00": "","20:30": "","21:00": "","21:30": "","22:00": "",
+    "22:30": "","23:00": "","23:30": "","00:00": "Meditation"
+  },
+  5: { // Friday
+    "07:30": "Wake up","08:00": "Exercise","08:30": "Personal Time","09:00": "Food",
+    "09:30": "Quality Time","10:00": "Side Hustle Digital","10:30": "Side Hustle Digital",
+    "11:00": "Move Forward","11:30": "Move Forward","12:00": "Side Hustle Digital",
+    "12:30": "Guitar","13:00": "","13:30": "","14:00": "","14:30": "","15:00": "",
+    "15:30": "","16:00": "","16:30": "Quality Time","17:00": "","17:30": "",
+    "18:00": "Move Forward","18:30": "Move Forward","19:00": "Yuvi","19:30": "",
+    "20:00": "","20:30": "","21:00": "","21:30": "","22:00": "","22:30": "",
+    "23:00": "Quality Time","23:30": "Side Hustle Digital","00:00": "Meditation"
+  },
+  6: { // Saturday
+    "07:30": "","08:00": "Wake up","08:30": "Exercise","09:00": "Personal Time",
+    "09:30": "Food","10:00": "Quality Time","10:30": "Quality Time",
+    "11:00": "Side Hustle Digital","11:30": "Move Forward","12:00": "Move Forward",
+    "12:30": "Guitar","13:00": "Side Hustle Digital","13:30": "Side Hustle Digital",
+    "14:00": "Side Hustle Digital","14:30": "","15:00": "Personal Time",
+    "15:30": "Personal Time","16:00": "Akshita","16:30": "Side Hustle Biz Setup",
+    "17:00": "Side Hustle Biz Setup","17:30": "Side Hustle Biz Setup",
+    "18:00": "Personal Time","18:30": "Personal Time","19:00": "Yuvi",
+    "19:30": "Anusha","20:00": "Food","20:30": "Personal Time",
+    "21:00": "","21:30": "","22:00": "","22:30": "",
+    "23:00": "Quality Time","23:30": "Quality Time","00:00": "Meditation"
+  },
+  0: { // Sunday
+    "07:30": "Exercise","08:00": "Exercise","08:30": "Wake up","09:00": "Personal Time",
+    "09:30": "Food","10:00": "Quality Time","10:30": "Quality Time",
+    "11:00": "Guitar","11:30": "Guitar","12:00": "Side Hustle Digital",
+    "12:30": "Side Hustle Digital","13:00": "Move Forward","13:30": "Move Forward",
+    "14:00": "Move Forward","14:30": "","15:00": "Personal Time",
+    "15:30": "Personal Time","16:00": "Pintu","16:30": "Personal Time",
+    "17:00": "Side Hustle Biz Setup","17:30": "Side Hustle Biz Setup",
+    "18:00": "Side Hustle Biz Setup","18:30": "Side Hustle Biz Setup",
+    "19:00": "Personal Time","19:30": "Side Hustle Digital",
+    "20:00": "Side Hustle Digital","20:30": "Food",
+    "21:00": "Extra Time- For Movies,etc","21:30": "Extra Time- For Movies,etc",
+    "22:00": "Extra Time- For Movies,etc","22:30": "Extra Time- For Movies,etc",
+    "23:00": "Quality Time","23:30": "Quality Time","00:00": "Meditation"
+  }
+};
+
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const SLOTS_ORDER = [
+  "07:30","08:00","08:30","09:00","09:30","10:00","10:30",
+  "11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30",
+  "15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30",
+  "19:00","19:30","20:00","20:30","21:00","21:30","22:00","22:30",
+  "23:00","23:30","00:00"
+];
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let schedule = JSON.parse(localStorage.getItem('myweek_schedule') || 'null') || JSON.parse(JSON.stringify(RAW));
+let reminders = JSON.parse(localStorage.getItem('myweek_reminders') || '{}');
+let viewDay = new Date().getDay();
+let lastNotified = {};
+
+function save() {
+  localStorage.setItem('myweek_schedule', JSON.stringify(schedule));
+  localStorage.setItem('myweek_reminders', JSON.stringify(reminders));
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function timeToMins(t) {
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+}
+function minsToTime(m) {
+  const h = Math.floor(m / 60) % 24;
+  const mn = m % 60;
+  return String(h).padStart(2,'0') + ':' + String(mn).padStart(2,'0');
+}
+function formatTime12(t) {
+  const [h, m] = t.split(':').map(Number);
+  const period = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  return `${h12}:${String(m).padStart(2,'0')} ${period}`;
+}
+function nowMins() {
+  const n = new Date();
+  return n.getHours() * 60 + n.getMinutes();
+}
+function slotKey(day, time) { return `${day}_${time}`; }
+
+// Find what slot is currently active
+function getCurrentSlot(dayIdx) {
+  const nm = nowMins();
+  const slots = SLOTS_ORDER;
+  let current = null, next = null;
+  for (let i = 0; i < slots.length; i++) {
+    const sm = timeToMins(slots[i]);
+    const em = i + 1 < slots.length ? timeToMins(slots[i+1]) : sm + 30;
+    if (nm >= sm && nm < em) {
+      current = { time: slots[i], idx: i, start: sm, end: em };
+    } else if (nm < sm && !next) {
+      next = { time: slots[i], idx: i };
+    }
+  }
+  return { current, next };
+}
+
+// ── Render Clock ──────────────────────────────────────────────────────────────
+function updateClock() {
+  const n = new Date();
+  const h = n.getHours(), m = n.getMinutes(), s = n.getSeconds();
+  const period = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  document.getElementById('live-clock').textContent =
+    `${String(h12).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ${period}`;
+
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('header-date').textContent =
+    `${days[n.getDay()]}, ${n.getDate()} ${months[n.getMonth()]} ${n.getFullYear()}`;
+}
+
+// ── Render Now Card ───────────────────────────────────────────────────────────
+function updateNowCard() {
+  const todayIdx = new Date().getDay();
+  const { current, next } = getCurrentSlot(todayIdx);
+  const dayData = schedule[todayIdx] || {};
+
+  if (current) {
+    const task = dayData[current.time] || '—';
+    document.getElementById('now-task').textContent = task || 'Free time';
+    document.getElementById('now-time-range').textContent =
+      `${formatTime12(current.time)} – ${formatTime12(minsToTime(current.end))}`;
+    document.getElementById('now-day').textContent = DAYS[todayIdx];
+
+    // progress
+    const nm = nowMins();
+    const pct = ((nm - current.start) / (current.end - current.start)) * 100;
+    document.getElementById('progress-fill').style.width = Math.min(100, Math.max(0, pct)) + '%';
+
+    // check reminder
+    checkReminder(todayIdx, current.time, task);
+  }
+
+  if (next) {
+    const ntask = dayData[next.time] || 'Free';
+    document.getElementById('next-task').textContent = ntask || 'Free';
+    document.getElementById('next-time').textContent = 'at ' + formatTime12(next.time);
+  } else {
+    document.getElementById('next-task').textContent = 'End of day';
+    document.getElementById('next-time').textContent = '';
+  }
+
+  // re-highlight grid if viewing today
+  if (viewDay === todayIdx) highlightCurrentSlot(current);
+}
+
+function highlightCurrentSlot(current) {
+  document.querySelectorAll('.slot').forEach(s => s.classList.remove('is-now'));
+  if (current) {
+    const el = document.querySelector(`.slot[data-time="${current.time}"]`);
+    if (el) {
+      el.classList.add('is-now');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+}
+
+// ── Render Day Tabs ───────────────────────────────────────────────────────────
+function renderTabs() {
+  const todayIdx = new Date().getDay();
+  const container = document.getElementById('day-tabs');
+  container.innerHTML = '';
+  for (let i = 0; i < 7; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'day-tab' + (i === viewDay ? ' active' : '') + (i === todayIdx ? ' today' : '');
+    btn.textContent = DAYS_SHORT[i];
+    btn.onclick = () => { viewDay = i; renderTabs(); renderGrid(); };
+    container.appendChild(btn);
+  }
+}
+
+// ── Render Grid ───────────────────────────────────────────────────────────────
+function renderGrid() {
+  const todayIdx = new Date().getDay();
+  const { current } = getCurrentSlot(todayIdx);
+  const dayData = schedule[viewDay] || {};
+  const container = document.getElementById('schedule-grid');
+  container.innerHTML = '';
+
+  let lastSection = '';
+  const sections = {
+    "07:30": "Morning", "10:00": "Late Morning",
+    "12:00": "Afternoon", "15:00": "Evening",
+    "18:00": "Night", "22:00": "Late Night"
+  };
+
+  SLOTS_ORDER.forEach(time => {
+    // Section separator
+    if (sections[time]) {
+      const sep = document.createElement('div');
+      sep.className = 'section-sep';
+      sep.textContent = sections[time];
+      container.appendChild(sep);
+    }
+
+    const task = dayData[time] !== undefined ? dayData[time] : '';
+    const isEmpty = !task || task === '' || task === 'O' || task === '–' || task === '--';
+    const rKey = slotKey(viewDay, time);
+    const hasReminder = reminders[rKey];
+    const isNow = viewDay === todayIdx && current && current.time === time;
+
+    const slot = document.createElement('div');
+    slot.className = 'slot' + (isEmpty ? ' is-empty' : '') + (isNow ? ' is-now' : '');
+    slot.dataset.time = time;
+
+    // Time
+    const timeEl = document.createElement('div');
+    timeEl.className = 'slot-time';
+    timeEl.textContent = formatTime12(time);
+
+    // Task
+    const taskEl = document.createElement('div');
+    taskEl.className = 'slot-task';
+    taskEl.textContent = isEmpty ? '·' : task;
+    taskEl.title = 'Click to edit';
+    taskEl.onclick = () => startEdit(slot, taskEl, viewDay, time);
+
+    // Actions
+    const actions = document.createElement('div');
+    actions.className = 'slot-actions';
+
+    const bell = document.createElement('button');
+    bell.className = 'bell-btn' + (hasReminder ? ' active' : '');
+    bell.title = hasReminder ? 'Reminder on' : 'Set reminder';
+    bell.innerHTML = hasReminder ? '🔔' : '🔕';
+    bell.onclick = (e) => { e.stopPropagation(); toggleReminder(rKey, bell); };
+
+    actions.appendChild(bell);
+    slot.appendChild(timeEl);
+    slot.appendChild(taskEl);
+    slot.appendChild(actions);
+    container.appendChild(slot);
+  });
+}
+
+// ── Edit ──────────────────────────────────────────────────────────────────────
+function startEdit(slot, taskEl, dayIdx, time) {
+  const current = taskEl.textContent === '·' ? '' : taskEl.textContent;
+  const input = document.createElement('input');
+  input.value = current;
+  input.placeholder = 'Enter task…';
+  taskEl.innerHTML = '';
+  taskEl.appendChild(input);
+  input.focus(); input.select();
+
+  function commit() {
+    const val = input.value.trim();
+    if (!schedule[dayIdx]) schedule[dayIdx] = {};
+    schedule[dayIdx][time] = val;
+    save();
+    taskEl.textContent = val || '·';
+    slot.classList.toggle('is-empty', !val);
+    showToast('✓ Saved');
+    updateNowCard();
+  }
+  input.onblur = commit;
+  input.onkeydown = (e) => {
+    if (e.key === 'Enter') { input.blur(); }
+    if (e.key === 'Escape') { taskEl.textContent = current || '·'; }
+  };
+}
+
+// ── Reminders ─────────────────────────────────────────────────────────────────
+function toggleReminder(key, bellBtn) {
+  if (Notification.permission !== 'granted') {
+    showToast('⚠️ Enable notifications first');
+    return;
+  }
+  reminders[key] = !reminders[key];
+  save();
+  bellBtn.className = 'bell-btn' + (reminders[key] ? ' active' : '');
+  bellBtn.innerHTML = reminders[key] ? '🔔' : '🔕';
+  showToast(reminders[key] ? '🔔 Reminder on' : '🔕 Reminder off');
+}
+
+function requestNotifPermission() {
+  Notification.requestPermission().then(p => {
+    const btn = document.getElementById('notif-btn');
+    if (p === 'granted') {
+      btn.textContent = '✓ Reminders enabled';
+      btn.classList.add('granted');
+      showToast('🔔 Notifications enabled!');
+    } else {
+      showToast('Notifications blocked by browser');
+    }
+  });
+}
+
+function checkReminder(dayIdx, time, task) {
+  if (Notification.permission !== 'granted') return;
+  const key = slotKey(dayIdx, time);
+  if (!reminders[key]) return;
+  const notifKey = `${key}_${new Date().toDateString()}`;
+  if (lastNotified[notifKey]) return;
+  lastNotified[notifKey] = true;
+  new Notification('⏰ ' + (task || 'New task starting'), {
+    body: formatTime12(time) + ' · ' + DAYS[dayIdx],
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📅</text></svg>'
+  });
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+function init() {
+  // Check notification state
+  const btn = document.getElementById('notif-btn');
+  if (Notification.permission === 'granted') {
+    btn.textContent = '✓ Reminders enabled';
+    btn.classList.add('granted');
+  }
+
+  updateClock();
+  renderTabs();
+  renderGrid();
+  updateNowCard();
+
+  setInterval(updateClock, 1000);
+  setInterval(updateNowCard, 30000); // refresh every 30s
+}
+
+init();
+</script>
+</body>
+</html>
