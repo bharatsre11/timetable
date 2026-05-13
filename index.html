@@ -15,46 +15,49 @@ body {
   font-size: 15px;
   min-height: 100vh;
   padding-bottom: 60px;
+  -webkit-text-size-adjust: 100%;
 }
 .shell { max-width: 680px; margin: 0 auto; padding: 0 16px; }
 .header { padding: 32px 0 20px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px; }
 .header h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; }
 .header h1 span { color: #c9a96e; font-style: italic; }
-.header-sub { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+.header-sub { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: space-between; justify-content: space-between; margin-top: 8px; }
 #header-date { color: #6b6975; font-size: 13px; }
 #live-clock { font-size: 13px; color: #9997a0; background: #13131c; border: 1px solid rgba(255,255,255,0.08); padding: 6px 14px; border-radius: 100px; font-variant-numeric: tabular-nums; }
 .now-card { background: #13131c; border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 22px 20px; margin-bottom: 16px; }
-.now-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #6edfc9; font-weight: 500; display: flex; align-items: center; gap: 7px; margin-bottom: 10px; }
-.now-dot { width: 7px; height: 7px; border-radius: 50%; background: #6edfc9; animation: blink 2s ease-in-out infinite; flex-shrink: 0; }
+.now-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #6edfc9; font-weight: 500; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; gap: 7px; margin-bottom: 10px; }
+.now-dot { width: 7px; height: 7px; border-radius: 50%; background: #6edfc9; -webkit-animation: blink 2s ease-in-out infinite; animation: blink 2s ease-in-out infinite; flex-shrink: 0; }
+@-webkit-keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 .now-task-text { font-size: 34px; font-weight: 700; color: #f0ede8; line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 8px; word-break: break-word; }
 .now-meta { color: #6b6975; font-size: 13px; margin-bottom: 16px; }
 .progress-bar { height: 3px; background: #1c1c2a; border-radius: 2px; overflow: hidden; }
-.progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #c9a96e, #6edfc9); transition: width 1s linear; }
-.next-row { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+.progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #c9a96e, #6edfc9); -webkit-transition: width 1s linear; transition: width 1s linear; }
+.next-row { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: space-between; justify-content: space-between; margin-top: 14px; }
 .next-label { font-size: 11px; color: #6b6975; text-transform: uppercase; letter-spacing: 1.5px; }
 .next-val { font-size: 14px; color: #9997a0; margin-top: 3px; }
-.notif-btn { display: block; width: 100%; background: #13131c; border: 1px solid rgba(255,255,255,0.08); color: #9997a0; padding: 12px 16px; border-radius: 12px; font-size: 14px; font-family: inherit; cursor: pointer; margin-bottom: 16px; text-align: center; }
+.notif-btn { display: block; width: 100%; background: #13131c; border: 1px solid rgba(255,255,255,0.08); color: #9997a0; padding: 12px 16px; border-radius: 12px; font-size: 14px; font-family: inherit; cursor: pointer; margin-bottom: 16px; text-align: center; -webkit-appearance: none; appearance: none; }
 .notif-btn.granted { color: #6edfc9; border-color: rgba(110,223,201,0.3); }
-.day-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin-bottom: 20px; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+.notif-btn.hidden { display: none; }
+.day-tabs { display: -webkit-flex; display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin-bottom: 20px; padding-bottom: 2px; }
 .day-tabs::-webkit-scrollbar { display: none; }
-.day-tab { background: #13131c; border: 1px solid rgba(255,255,255,0.08); color: #6b6975; padding: 8px 16px; border-radius: 100px; font-size: 13px; font-weight: 500; font-family: inherit; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.day-tab { background: #13131c; border: 1px solid rgba(255,255,255,0.08); color: #6b6975; padding: 8px 16px; border-radius: 100px; font-size: 13px; font-weight: 500; font-family: inherit; cursor: pointer; white-space: nowrap; -webkit-flex-shrink: 0; flex-shrink: 0; -webkit-appearance: none; appearance: none; }
 .day-tab.active { background: rgba(201,169,110,0.12); border-color: #c9a96e; color: #e8c98a; }
 .day-tab.today { border-color: rgba(110,223,201,0.3); color: #6edfc9; }
 .day-tab.today.active { background: rgba(201,169,110,0.12); border-color: #c9a96e; color: #e8c98a; }
 .section-sep { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #3a3845; padding: 14px 0 6px 8px; }
-.slot { display: flex; align-items: center; padding: 10px 10px 10px 8px; border-radius: 10px; }
+.slot { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 10px 10px 10px 8px; border-radius: 10px; }
 .slot.is-now { background: #13131c; border-left: 3px solid #6edfc9; padding-left: 10px; }
 .slot.is-empty { opacity: 0.3; }
-.slot-time { font-size: 11px; color: #3a3845; min-width: 64px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.slot-time { font-size: 11px; color: #3a3845; min-width: 64px; -webkit-flex-shrink: 0; flex-shrink: 0; font-variant-numeric: tabular-nums; }
 .slot.is-now .slot-time { color: #6b6975; }
-.slot-task { flex: 1; font-size: 14px; color: #f0ede8; padding: 0 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.slot-task { -webkit-flex: 1; flex: 1; font-size: 14px; color: #f0ede8; padding: 0 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
 .slot.is-now .slot-task { color: #6edfc9; font-weight: 500; }
 .slot.is-empty .slot-task { color: #3a3845; }
-.slot-task input { width: 100%; background: #1c1c2a; border: 1px solid #c9a96e; border-radius: 6px; color: #f0ede8; font-family: inherit; font-size: 14px; padding: 5px 10px; outline: none; }
-.bell-btn { width: 32px; height: 32px; border-radius: 50%; background: transparent; border: 1px solid rgba(255,255,255,0.08); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.slot-task input { width: 100%; background: #1c1c2a; border: 1px solid #c9a96e; border-radius: 6px; color: #f0ede8; font-family: inherit; font-size: 14px; padding: 5px 10px; outline: none; -webkit-appearance: none; appearance: none; }
+.bell-btn { width: 32px; height: 32px; border-radius: 50%; background: transparent; border: 1px solid rgba(255,255,255,0.08); font-size: 14px; cursor: pointer; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; -webkit-flex-shrink: 0; flex-shrink: 0; -webkit-appearance: none; appearance: none; }
 .bell-btn.active { background: rgba(201,169,110,0.12); border-color: #c9a96e; }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #1c1c2a; border: 1px solid rgba(255,255,255,0.12); color: #f0ede8; padding: 11px 22px; border-radius: 100px; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity 0.25s; white-space: nowrap; z-index: 999; }
+.toast { position: fixed; bottom: 24px; left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%); background: #1c1c2a; border: 1px solid rgba(255,255,255,0.12); color: #f0ede8; padding: 11px 22px; border-radius: 100px; font-size: 13px; opacity: 0; pointer-events: none; -webkit-transition: opacity 0.25s; transition: opacity 0.25s; white-space: nowrap; z-index: 999; }
 .toast.show { opacity: 1; }
 </style>
 </head>
@@ -77,123 +80,249 @@ body {
       <div style="text-align:right"><div class="next-label">At</div><div class="next-val" id="next-time">—</div></div>
     </div>
   </div>
-  <button class="notif-btn" id="notif-btn" onclick="requestNotif()">🔔 Enable Reminders</button>
+  <button class="notif-btn" id="notif-btn">🔔 Enable Reminders</button>
   <div class="day-tabs" id="day-tabs"></div>
   <div id="schedule-grid"></div>
 </div>
 <div class="toast" id="toast"></div>
 <script>
+/* ── Safe localStorage wrapper (private-mode iOS crashes without this) ── */
+var store = (function(){
+  var mem = {};
+  try {
+    localStorage.setItem('_t','1');
+    localStorage.removeItem('_t');
+    return {
+      get: function(k){ return localStorage.getItem(k); },
+      set: function(k,v){ localStorage.setItem(k,v); },
+    };
+  } catch(e) {
+    return {
+      get: function(k){ return mem[k]||null; },
+      set: function(k,v){ mem[k]=v; },
+    };
+  }
+})();
+
 var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 var DAYS_SHORT=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 var SLOTS=["07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","21:00","21:30","22:00","22:30","23:00","23:30","00:00"];
 var SECTIONS={"07:30":"Morning","10:00":"Late Morning","12:00":"Afternoon","15:00":"Evening","18:00":"Night","22:00":"Late Night"};
 var RAW={1:{"07:30":"Wake up","08:00":"Exercise","08:30":"Personal Time","09:00":"Food","09:30":"Quality Time","10:00":"Side Hustle Digital","10:30":"Side Hustle Digital","11:00":"Move Forward","11:30":"Move Forward","12:00":"Side Hustle Digital","12:30":"Guitar","13:00":"","13:30":"","14:00":"","14:30":"","15:00":"","15:30":"","16:00":"","16:30":"Quality Time","17:00":"","17:30":"","18:00":"Move Forward","18:30":"Move Forward","19:00":"Yuvi","19:30":"","20:00":"","20:30":"","21:00":"","21:30":"","22:00":"","22:30":"","23:00":"Quality Time","23:30":"Side Hustle Digital","00:00":"Meditation"},2:{"07:30":"Wake up","08:00":"Exercise","08:30":"Personal Time","09:00":"Food","09:30":"Quality Time","10:00":"Side Hustle Digital","10:30":"Side Hustle Digital","11:00":"Move Forward","11:30":"Move Forward","12:00":"Side Hustle Digital","12:30":"Guitar","13:00":"","13:30":"","14:00":"","14:30":"","15:00":"","15:30":"","16:00":"","16:30":"Quality Time","17:00":"","17:30":"","18:00":"Move Forward","18:30":"","19:00":"Yuvi","19:30":"","20:00":"","20:30":"","21:00":"","21:30":"","22:00":"","22:30":"","23:00":"Quality Time","23:30":"Side Hustle Digital","00:00":"Meditation"},3:{"07:30":"Wake up","08:00":"Yuvi","08:30":"Personal Time","09:00":"Food","09:30":"Quality Time","10:00":"Side Hustle Digital","10:30":"Side Hustle Digital","11:00":"Move Forward","11:30":"Move Forward","12:00":"Side Hustle Digital","12:30":"Guitar","13:00":"","13:30":"","14:00":"","14:30":"","15:00":"","15:30":"","16:00":"","16:30":"Quality Time","17:00":"","17:30":"","18:00":"Move Forward","18:30":"","19:00":"Yuvi","19:30":"","20:00":"","20:30":"","21:00":"","21:30":"","22:00":"","22:30":"","23:00":"Quality Time","23:30":"Side Hustle Digital","00:00":"Meditation"},4:{"07:30":"Wake up","08:00":"Exercise","08:30":"Personal Time","09:00":"Food","09:30":"Side Hustle Digital","10:00":"Side Hustle Digital","10:30":"Quality Time","11:00":"","11:30":"","12:00":"","12:30":"","13:00":"","13:30":"","14:00":"","14:30":"","15:00":"","15:30":"","16:00":"","16:30":"","17:00":"","17:30":"","18:00":"Move Forward","18:30":"","19:00":"","19:30":"","20:00":"","20:30":"","21:00":"","21:30":"","22:00":"","22:30":"","23:00":"","23:30":"","00:00":"Meditation"},5:{"07:30":"Wake up","08:00":"Exercise","08:30":"Personal Time","09:00":"Food","09:30":"Quality Time","10:00":"Side Hustle Digital","10:30":"Side Hustle Digital","11:00":"Move Forward","11:30":"Move Forward","12:00":"Side Hustle Digital","12:30":"Guitar","13:00":"","13:30":"","14:00":"","14:30":"","15:00":"","15:30":"","16:00":"","16:30":"Quality Time","17:00":"","17:30":"","18:00":"Move Forward","18:30":"Move Forward","19:00":"Yuvi","19:30":"","20:00":"","20:30":"","21:00":"","21:30":"","22:00":"","22:30":"","23:00":"Quality Time","23:30":"Side Hustle Digital","00:00":"Meditation"},6:{"07:30":"","08:00":"Wake up","08:30":"Exercise","09:00":"Personal Time","09:30":"Food","10:00":"Quality Time","10:30":"Quality Time","11:00":"Side Hustle Digital","11:30":"Move Forward","12:00":"Move Forward","12:30":"Guitar","13:00":"Side Hustle Digital","13:30":"Side Hustle Digital","14:00":"Side Hustle Digital","14:30":"","15:00":"Personal Time","15:30":"Personal Time","16:00":"Akshita","16:30":"Side Hustle Biz Setup","17:00":"Side Hustle Biz Setup","17:30":"Side Hustle Biz Setup","18:00":"Personal Time","18:30":"Personal Time","19:00":"Yuvi","19:30":"Anusha","20:00":"Food","20:30":"Personal Time","21:00":"","21:30":"","22:00":"","22:30":"","23:00":"Quality Time","23:30":"Quality Time","00:00":"Meditation"},0:{"07:30":"Exercise","08:00":"Exercise","08:30":"Wake up","09:00":"Personal Time","09:30":"Food","10:00":"Quality Time","10:30":"Quality Time","11:00":"Guitar","11:30":"Guitar","12:00":"Side Hustle Digital","12:30":"Side Hustle Digital","13:00":"Move Forward","13:30":"Move Forward","14:00":"Move Forward","14:30":"","15:00":"Personal Time","15:30":"Personal Time","16:00":"Pintu","16:30":"Personal Time","17:00":"Side Hustle Biz Setup","17:30":"Side Hustle Biz Setup","18:00":"Side Hustle Biz Setup","18:30":"Side Hustle Biz Setup","19:00":"Personal Time","19:30":"Side Hustle Digital","20:00":"Side Hustle Digital","20:30":"Food","21:00":"Extra Time- For Movies,etc","21:30":"Extra Time- For Movies,etc","22:00":"Extra Time- For Movies,etc","22:30":"Extra Time- For Movies,etc","23:00":"Quality Time","23:30":"Quality Time","00:00":"Meditation"}};
-var schedule=JSON.parse(localStorage.getItem('mw_s')||'null')||JSON.parse(JSON.stringify(RAW));
-var reminders=JSON.parse(localStorage.getItem('mw_r')||'{}');
-var viewDay=new Date().getDay();
-var lastNotified={};
-function save(){localStorage.setItem('mw_s',JSON.stringify(schedule));localStorage.setItem('mw_r',JSON.stringify(reminders));}
-function toMins(t){var p=t.split(':');return parseInt(p[0])*60+parseInt(p[1]);}
-function fromMins(m){var h=Math.floor(m/60)%24,mn=m%60;return('0'+h).slice(-2)+':'+('0'+mn).slice(-2);}
-function fmt12(t){var p=t.split(':'),h=parseInt(p[0]),m=p[1],per=h>=12?'PM':'AM',h12=h%12||12;return h12+':'+m+' '+per;}
-function nowMins(){var n=new Date();return n.getHours()*60+n.getMinutes();}
+
+/* Load saved data safely */
+var schedule, reminders;
+try { schedule = JSON.parse(store.get('mw_s')) || JSON.parse(JSON.stringify(RAW)); } catch(e) { schedule = JSON.parse(JSON.stringify(RAW)); }
+try { reminders = JSON.parse(store.get('mw_r')) || {}; } catch(e) { reminders = {}; }
+
+var viewDay = new Date().getDay();
+var lastNotified = {};
+
+/* Check Notification support (not available in iOS Chrome) */
+var notifSupported = (typeof Notification !== 'undefined');
+
+function save(){
+  try { store.set('mw_s', JSON.stringify(schedule)); store.set('mw_r', JSON.stringify(reminders)); } catch(e){}
+}
+
+function toMins(t){ var p=t.split(':'); return parseInt(p[0])*60+parseInt(p[1]); }
+function fromMins(m){ var h=Math.floor(m/60)%24, mn=m%60; return ('0'+h).slice(-2)+':'+('0'+mn).slice(-2); }
+function fmt12(t){
+  var p=t.split(':'), h=parseInt(p[0]), m=p[1];
+  var per = h>=12 ? 'PM' : 'AM', h12 = h%12||12;
+  return h12+':'+m+' '+per;
+}
+function nowMins(){ var n=new Date(); return n.getHours()*60+n.getMinutes(); }
+
 function getCurrentSlot(){
-  var nm=nowMins(),todayIdx=new Date().getDay(),day=schedule[todayIdx]||{},cur=null,nxt=null;
+  var nm=nowMins(), todayIdx=new Date().getDay(), day=schedule[todayIdx]||{}, cur=null, nxt=null;
   for(var i=0;i<SLOTS.length;i++){
-    var sm=toMins(SLOTS[i]),em=i+1<SLOTS.length?toMins(SLOTS[i+1]):sm+30;
-    if(em<=sm)em+=1440;
-    if(nm>=sm&&nm<em)cur={time:SLOTS[i],idx:i,start:sm,end:em,task:day[SLOTS[i]]||''};
-    else if(nm<sm&&!nxt)nxt={time:SLOTS[i],idx:i,task:day[SLOTS[i]]||''};
+    var sm=toMins(SLOTS[i]);
+    /* 00:00 slot is midnight — treat as 24:00 (1440) for comparison */
+    if(sm===0) sm=1440;
+    var em = i+1<SLOTS.length ? toMins(SLOTS[i+1]) : sm+30;
+    if(em===0) em=1440;
+    if(em<=sm) em+=1440;
+    /* also shift nm past midnight if needed */
+    var nm2 = (nm < toMins("07:00")) ? nm+1440 : nm;
+    var sm2 = sm < toMins("07:00") ? sm+1440 : sm;
+    var em2 = em < toMins("07:00") ? em+1440 : em;
+    if(nm2>=sm2 && nm2<em2) cur={time:SLOTS[i],idx:i,start:sm2,end:em2,task:day[SLOTS[i]]||''};
+    else if(nm2<sm2 && !nxt) nxt={time:SLOTS[i],idx:i,task:day[SLOTS[i]]||''};
   }
   return{cur:cur,nxt:nxt};
 }
+
 function updateClock(){
-  var n=new Date(),h=n.getHours(),m=n.getMinutes(),s=n.getSeconds(),per=h>=12?'PM':'AM',h12=h%12||12;
-  document.getElementById('live-clock').textContent=('0'+h12).slice(-2)+':'+('0'+m).slice(-2)+':'+('0'+s).slice(-2)+' '+per;
+  var n=new Date(), h=n.getHours(), m=n.getMinutes(), s=n.getSeconds();
+  var per=h>=12?'PM':'AM', h12=h%12||12;
+  var el=document.getElementById('live-clock');
+  if(el) el.textContent=('0'+h12).slice(-2)+':'+('0'+m).slice(-2)+':'+('0'+s).slice(-2)+' '+per;
   var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  document.getElementById('header-date').textContent=DAYS[n.getDay()]+', '+n.getDate()+' '+mo[n.getMonth()];
+  var de=document.getElementById('header-date');
+  if(de) de.textContent=DAYS[n.getDay()]+', '+n.getDate()+' '+mo[n.getMonth()];
 }
+
 function updateNowCard(){
-  var todayIdx=new Date().getDay(),res=getCurrentSlot(),cur=res.cur,nxt=res.nxt;
+  var todayIdx=new Date().getDay(), res=getCurrentSlot(), cur=res.cur, nxt=res.nxt;
   if(cur){
-    document.getElementById('now-task').textContent=cur.task||'Free';
-    document.getElementById('now-meta').textContent=fmt12(cur.time)+' – '+fmt12(fromMins(cur.end%1440));
-    var pct=((nowMins()-cur.start)/(cur.end-cur.start))*100;
-    document.getElementById('progress-fill').style.width=Math.min(100,Math.max(0,pct))+'%';
+    var nt=document.getElementById('now-task'); if(nt) nt.textContent=cur.task||'Free';
+    var nm=document.getElementById('now-meta'); if(nm) nm.textContent=fmt12(cur.time)+' – '+fmt12(fromMins(cur.end%1440));
+    var pct=((nowMins()-cur.start%(1440))/(cur.end-cur.start))*100;
+    var pf=document.getElementById('progress-fill'); if(pf) pf.style.width=Math.min(100,Math.max(0,pct))+'%';
     checkReminder(todayIdx,cur.time,cur.task||'');
   }
-  if(nxt){document.getElementById('next-task').textContent=nxt.task||'Free';document.getElementById('next-time').textContent=fmt12(nxt.time);}
-  if(viewDay===todayIdx)highlightNow(cur);
+  if(nxt){
+    var nxt2=document.getElementById('next-task'); if(nxt2) nxt2.textContent=nxt.task||'Free';
+    var nti=document.getElementById('next-time'); if(nti) nti.textContent=fmt12(nxt.time);
+  }
+  if(viewDay===todayIdx) highlightNow(cur);
 }
+
 function highlightNow(cur){
-  document.querySelectorAll('.slot').forEach(function(s){s.classList.remove('is-now');});
-  if(cur){var el=document.querySelector('.slot[data-time="'+cur.time+'"]');if(el)el.classList.add('is-now');}
+  var slots=document.querySelectorAll('.slot');
+  for(var i=0;i<slots.length;i++) slots[i].classList.remove('is-now');
+  if(cur){ var el=document.querySelector('.slot[data-time="'+cur.time+'"]'); if(el) el.classList.add('is-now'); }
 }
+
 function renderTabs(){
-  var todayIdx=new Date().getDay(),c=document.getElementById('day-tabs');c.innerHTML='';
+  var todayIdx=new Date().getDay(), c=document.getElementById('day-tabs');
+  if(!c) return;
+  c.innerHTML='';
   for(var i=0;i<7;i++){
-    var btn=document.createElement('button');
-    btn.className='day-tab'+(i===viewDay?' active':'')+(i===todayIdx?' today':'');
-    btn.textContent=DAYS_SHORT[i];
-    btn.onclick=(function(idx){return function(){viewDay=idx;renderTabs();renderGrid();};})(i);
-    c.appendChild(btn);
+    (function(idx){
+      var btn=document.createElement('button');
+      btn.className='day-tab'+(idx===viewDay?' active':'')+(idx===todayIdx?' today':'');
+      btn.textContent=DAYS_SHORT[idx];
+      btn.addEventListener('click', function(){ viewDay=idx; renderTabs(); renderGrid(); });
+      c.appendChild(btn);
+    })(i);
   }
 }
+
 function renderGrid(){
-  var todayIdx=new Date().getDay(),res=getCurrentSlot(),cur=res.cur,day=schedule[viewDay]||{},c=document.getElementById('schedule-grid');
+  var todayIdx=new Date().getDay(), res=getCurrentSlot(), cur=res.cur;
+  var day=schedule[viewDay]||{}, c=document.getElementById('schedule-grid');
+  if(!c) return;
   c.innerHTML='';
   for(var i=0;i<SLOTS.length;i++){
     var time=SLOTS[i];
-    if(SECTIONS[time]){var sep=document.createElement('div');sep.className='section-sep';sep.textContent=SECTIONS[time];c.appendChild(sep);}
-    var task=day[time]!==undefined?day[time]:'',isEmpty=!task||task===''||task==='O'||task==='–'||task==='--';
-    var rKey=viewDay+'_'+time,hasRem=reminders[rKey],isNow=viewDay===todayIdx&&cur&&cur.time===time;
+    if(SECTIONS[time]){ var sep=document.createElement('div'); sep.className='section-sep'; sep.textContent=SECTIONS[time]; c.appendChild(sep); }
+    var task=day[time]!==undefined?day[time]:'';
+    var isEmpty=(!task||task===''||task==='O'||task==='–'||task==='--');
+    var rKey=viewDay+'_'+time, hasRem=reminders[rKey];
+    var isNow=viewDay===todayIdx&&cur&&cur.time===time;
     var slot=document.createElement('div');
     slot.className='slot'+(isEmpty?' is-empty':'')+(isNow?' is-now':'');
     slot.setAttribute('data-time',time);
-    var timeEl=document.createElement('div');timeEl.className='slot-time';timeEl.textContent=fmt12(time);
-    var taskEl=document.createElement('div');taskEl.className='slot-task';taskEl.textContent=isEmpty?'·':task;
-    taskEl.onclick=(function(s,te,d,t){return function(){startEdit(s,te,d,t);};})(slot,taskEl,viewDay,time);
-    var bell=document.createElement('button');bell.className='bell-btn'+(hasRem?' active':'');bell.innerHTML=hasRem?'🔔':'🔕';
-    bell.onclick=(function(k,b){return function(e){e.stopPropagation();toggleRem(k,b);};})(rKey,bell);
-    slot.appendChild(timeEl);slot.appendChild(taskEl);slot.appendChild(bell);c.appendChild(slot);
+    var timeEl=document.createElement('div'); timeEl.className='slot-time'; timeEl.textContent=fmt12(time);
+    var taskEl=document.createElement('div'); taskEl.className='slot-task'; taskEl.textContent=isEmpty?'·':task;
+    /* Use closure to capture slot/taskEl/viewDay/time correctly */
+    (function(s,te,d,t){
+      te.addEventListener('click', function(){ startEdit(s,te,d,t); });
+    })(slot,taskEl,viewDay,time);
+    var bell=document.createElement('button');
+    bell.className='bell-btn'+(hasRem?' active':'');
+    bell.innerHTML=hasRem?'🔔':'🔕';
+    (function(k,b){
+      b.addEventListener('click', function(e){ e.stopPropagation(); toggleRem(k,b); });
+    })(rKey,bell);
+    slot.appendChild(timeEl); slot.appendChild(taskEl); slot.appendChild(bell); c.appendChild(slot);
   }
 }
+
 function startEdit(slot,taskEl,dayIdx,time){
-  var cur=taskEl.textContent==='·'?'':taskEl.textContent,inp=document.createElement('input');
-  inp.value=cur;inp.placeholder='Enter task…';taskEl.innerHTML='';taskEl.appendChild(inp);inp.focus();
-  function commit(){var val=inp.value.trim();if(!schedule[dayIdx])schedule[dayIdx]={};schedule[dayIdx][time]=val;save();taskEl.textContent=val||'·';slot.classList.toggle('is-empty',!val);showToast('Saved ✓');updateNowCard();}
-  inp.onblur=commit;
-  inp.onkeydown=function(e){if(e.key==='Enter')inp.blur();if(e.key==='Escape')taskEl.textContent=cur||'·';};
-}
-function toggleRem(key,btn){
-  if(Notification.permission!=='granted'){showToast('Enable reminders first');return;}
-  reminders[key]=!reminders[key];save();
-  btn.className='bell-btn'+(reminders[key]?' active':'');btn.innerHTML=reminders[key]?'🔔':'🔕';
-  showToast(reminders[key]?'🔔 Reminder on':'Reminder off');
-}
-function requestNotif(){
-  if(!('Notification' in window)){showToast('Not supported here');return;}
-  Notification.requestPermission().then(function(p){
-    var btn=document.getElementById('notif-btn');
-    if(p==='granted'){btn.textContent='✓ Reminders Enabled';btn.classList.add('granted');showToast('Reminders enabled!');}
-    else showToast('Blocked — check phone Settings > Safari > Notifications');
+  var cur=taskEl.textContent==='·'?'':taskEl.textContent;
+  var inp=document.createElement('input');
+  inp.value=cur; inp.placeholder='Enter task…';
+  taskEl.innerHTML=''; taskEl.appendChild(inp); inp.focus();
+  var committed=false;
+  function commit(){
+    if(committed) return; committed=true;
+    var val=inp.value.trim();
+    if(!schedule[dayIdx]) schedule[dayIdx]={};
+    schedule[dayIdx][time]=val; save();
+    taskEl.textContent=val||'·';
+    slot.classList.toggle('is-empty',!val);
+    showToast('Saved ✓'); updateNowCard();
+  }
+  inp.addEventListener('blur', commit);
+  inp.addEventListener('keydown', function(e){
+    if(e.key==='Enter'){ inp.blur(); }
+    if(e.key==='Escape'){ committed=true; taskEl.textContent=cur||'·'; }
   });
 }
+
+function toggleRem(key,btn){
+  if(!notifSupported){ showToast('Notifications not supported here'); return; }
+  if(Notification.permission!=='granted'){ showToast('Enable reminders first'); return; }
+  reminders[key]=!reminders[key]; save();
+  btn.className='bell-btn'+(reminders[key]?' active':'');
+  btn.innerHTML=reminders[key]?'🔔':'🔕';
+  showToast(reminders[key]?'🔔 Reminder on':'Reminder off');
+}
+
+function requestNotif(){
+  if(!notifSupported){ showToast('Not supported in this browser'); return; }
+  var btn=document.getElementById('notif-btn');
+  /* requestPermission may be callback-based on older iOS, use both */
+  var result;
+  try {
+    result = Notification.requestPermission(function(p){ handlePerm(p, btn); });
+  } catch(e){}
+  if(result && typeof result.then === 'function'){
+    result.then(function(p){ handlePerm(p, btn); });
+  }
+}
+
+function handlePerm(p, btn){
+  if(p==='granted'){
+    if(btn){ btn.textContent='✓ Reminders Enabled'; btn.classList.add('granted'); }
+    showToast('Reminders enabled!');
+  } else {
+    showToast('Blocked — enable in Settings > Notifications');
+  }
+}
+
 function checkReminder(dayIdx,time,task){
-  if(Notification.permission!=='granted')return;
-  var key=dayIdx+'_'+time,nk=key+'_'+new Date().toDateString();
-  if(!reminders[key]||lastNotified[nk])return;
+  if(!notifSupported || Notification.permission!=='granted') return;
+  var key=dayIdx+'_'+time, nk=key+'_'+new Date().toDateString();
+  if(!reminders[key]||lastNotified[nk]) return;
   lastNotified[nk]=true;
-  try{new Notification('⏰ '+(task||'New slot'),{body:fmt12(time)+' · '+DAYS[dayIdx]});}catch(e){}
+  try{ new Notification('⏰ '+(task||'New slot'),{body:fmt12(time)+' · '+DAYS[dayIdx]}); }catch(e){}
 }
+
 var toastTimer;
-function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.classList.remove('show');},2200);}
-function init(){
-  if(Notification.permission==='granted'){var btn=document.getElementById('notif-btn');btn.textContent='✓ Reminders Enabled';btn.classList.add('granted');}
-  updateClock();renderTabs();renderGrid();updateNowCard();
-  setInterval(updateClock,1000);setInterval(updateNowCard,30000);
+function showToast(msg){
+  var t=document.getElementById('toast');
+  if(!t) return;
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){ t.classList.remove('show'); },2200);
 }
-init();
+
+function init(){
+  /* Hide notif button if not supported (iOS Chrome doesn't support it) */
+  var btn=document.getElementById('notif-btn');
+  if(!notifSupported){
+    if(btn) btn.classList.add('hidden');
+  } else {
+    btn.addEventListener('click', requestNotif);
+    if(Notification.permission==='granted'){
+      btn.textContent='✓ Reminders Enabled'; btn.classList.add('granted');
+    }
+  }
+  updateClock(); renderTabs(); renderGrid(); updateNowCard();
+  setInterval(updateClock, 1000);
+  setInterval(updateNowCard, 30000);
+}
+
+/* Wait for DOM to be ready — handles edge cases in iOS WebView */
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 </script>
 </body>
 </html>
